@@ -1,4 +1,6 @@
 @baseUrl= http://localhost:3000
+@authToken = {{authenticate.response.body.access_token}}
+
 # @name create_account
 POST {{baseUrl}}/accounts
 Content-Type: application/json
@@ -19,3 +21,23 @@ Content-Type: application/json
   "email": "johndoe1@example.com",
   "password": "123465"
 }
+
+###
+
+# @name create_question
+POST {{baseUrl}}/questions
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "What is the capital of France?  3",
+  "content": "I am trying to find out the capital of France. Can someone help me? 3"
+}
+
+###
+
+# @name fetch_recent_questions
+GET {{baseUrl}}/questions?page=1
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+

@@ -1,0 +1,38 @@
+.
+├── README.md
+├── client.http
+├── docker-compose.yml
+├── eslint.config.mjs
+├── nest-cli.json
+├── package-lock.json
+├── package.json
+├── prisma
+│   ├── migrations
+│   │   ├── 20250307174619_create_user_and_questions
+│   │   │   └── migration.sql
+│   │   └── migration_lock.toml
+│   └── schema.prisma
+├── private_key.pem
+├── public_key.pem
+├── src
+│   ├── app.module.ts
+│   ├── auth
+│   │   ├── auth.module.ts
+│   │   ├── jwt-auth.guard.ts
+│   │   └── jwt.strategy.ts
+│   ├── controllers
+│   │   ├── authenticate.controller.ts
+│   │   ├── create-account.controller.ts
+│   │   └── create-question.controller.ts
+│   ├── env.ts
+│   ├── main.ts
+│   ├── pipes
+│   │   └── zod-validation-pipe.ts
+│   └── prisma
+│       └── prisma.service.ts
+├── test
+├── tree.txt
+├── tsconfig.build.json
+└── tsconfig.json
+
+10 directories, 26 files
