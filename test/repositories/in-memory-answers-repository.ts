@@ -15,10 +15,10 @@ export class InMemoryAnswersRepository implements AnswersRepository {
     const answer = this.items.find((item) => item.id.toString() === id);
 
     if (!answer) {
-      return null;
+      return Promise.resolve(null);
     }
 
-    return answer;
+    return Promise.resolve(answer);
   }
 
   async findManyByQuestionId(questionId: string, { page }: PaginationParams) {
@@ -26,27 +26,26 @@ export class InMemoryAnswersRepository implements AnswersRepository {
       .filter((item) => item.questionId.toString() === questionId)
       .slice((page - 1) * 20, page * 20);
 
-    return answers;
+    return Promise.resolve(answers);
   }
 
   async create(answer: Answer) {
     this.items.push(answer);
-
     DomainEvents.dispatchEventsForAggregate(answer.id);
+    return Promise.resolve();
   }
 
   async save(answer: Answer) {
     const itemIndex = this.items.findIndex((item) => item.id === answer.id);
-
     this.items[itemIndex] = answer;
-
     DomainEvents.dispatchEventsForAggregate(answer.id);
+    return Promise.resolve();
   }
 
   async delete(answer: Answer) {
     const itemIndex = this.items.findIndex((item) => item.id === answer.id);
-
     this.items.splice(itemIndex, 1);
     this.answerAttachmentsRepository.deleteManyByAnswerId(answer.id.toString());
+    return Promise.resolve();
   }
 }

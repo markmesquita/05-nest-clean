@@ -6,7 +6,6 @@ import { PrismaService } from "@/prisma/prisma.service";
 
 describe("Create account (E2E)", () => {
   let app: INestApplication;
-
   let prisma: PrismaService;
 
   beforeAll(async () => {
@@ -15,13 +14,11 @@ describe("Create account (E2E)", () => {
     }).compile();
 
     app = moduleRef.createNestApplication();
-
     prisma = moduleRef.get(PrismaService);
-
     await app.init();
   });
 
-  test("[POST] /accounts", async () => {
+  test("[POST] /accounts", async (): Promise<void> => {
     const response = await request(app.getHttpServer()).post("/accounts").send({
       name: "John Doe",
       email: "johndoe@example.com",

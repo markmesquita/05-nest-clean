@@ -23,7 +23,7 @@ export async function waitFor(
         resolve();
       } catch (err) {
         if (elapsedTime >= maxDuration) {
-          reject(err);
+          reject(err instanceof Error ? err : new Error(String(err)));
         }
       }
     }, 10);

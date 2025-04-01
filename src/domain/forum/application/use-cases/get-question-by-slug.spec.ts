@@ -3,6 +3,7 @@ import { InMemoryQuestionsRepository } from "test/repositories/in-memory-questio
 import { Slug } from "@/domain/forum/enterprise/entities/value-objects/slug";
 import { makeQuestion } from "test/factories/make-question";
 import { InMemoryQuestionAttachmentsRepository } from "test/repositories/in-memory-question-attachments-repository";
+import { Question } from "@/domain/forum/enterprise/entities/question";
 
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository;
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
@@ -32,7 +33,7 @@ describe("Get Question By Slug", () => {
     expect(result.value).toMatchObject({
       question: expect.objectContaining({
         title: newQuestion.title,
-      }),
+      }) as Question,
     });
   });
 });

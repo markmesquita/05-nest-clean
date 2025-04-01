@@ -15,20 +15,20 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
     const question = this.items.find((item) => item.id.toString() === id);
 
     if (!question) {
-      return null;
+      return Promise.resolve(null);
     }
 
-    return question;
+    return Promise.resolve(question);
   }
 
   async findBySlug(slug: string) {
     const question = this.items.find((item) => item.slug.value === slug);
 
     if (!question) {
-      return null;
+      return Promise.resolve(null);
     }
 
-    return question;
+    return Promise.resolve(question);
   }
 
   async findManyRecent({ page }: PaginationParams) {
@@ -36,13 +36,14 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
       .slice((page - 1) * 20, page * 20);
 
-    return questions;
+    return Promise.resolve(questions);
   }
 
   async create(question: Question) {
     this.items.push(question);
 
-    DomainEvents.dispatchEventsForAggregate(question.id);
+    void DomainEvents.dispatchEventsForAggregate(question.id);
+    return Promise.resolve();
   }
 
   async save(question: Question) {
@@ -50,7 +51,8 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
 
     this.items[itemIndex] = question;
 
-    DomainEvents.dispatchEventsForAggregate(question.id);
+    void DomainEvents.dispatchEventsForAggregate(question.id);
+    return Promise.resolve();
   }
 
   async delete(question: Question) {
@@ -58,8 +60,9 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
 
     this.items.splice(itemIndex, 1);
 
-    this.questionAttachmentsRepository.deleteManyByQuestionId(
+    void this.questionAttachmentsRepository.deleteManyByQuestionId(
       question.id.toString(),
     );
+    return Promise.resolve();
   }
 }

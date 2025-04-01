@@ -11,10 +11,10 @@ export class InMemoryAnswerCommentsRepository
     const answerComment = this.items.find((item) => item.id.toString() === id);
 
     if (!answerComment) {
-      return null;
+      return Promise.resolve(null);
     }
 
-    return answerComment;
+    return Promise.resolve(answerComment);
   }
 
   async findManyByAnswerId(answerId: string, { page }: PaginationParams) {
@@ -22,11 +22,12 @@ export class InMemoryAnswerCommentsRepository
       .filter((item) => item.answerId.toString() === answerId)
       .slice((page - 1) * 20, page * 20);
 
-    return answerComments;
+    return Promise.resolve(answerComments);
   }
 
   async create(answerComment: AnswerComment) {
     this.items.push(answerComment);
+    return Promise.resolve();
   }
 
   async delete(answerComment: AnswerComment) {
@@ -35,5 +36,6 @@ export class InMemoryAnswerCommentsRepository
     );
 
     this.items.splice(itemIndex, 1);
+    return Promise.resolve();
   }
 }

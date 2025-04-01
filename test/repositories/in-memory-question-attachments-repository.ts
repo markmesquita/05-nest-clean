@@ -11,7 +11,7 @@ export class InMemoryQuestionAttachmentsRepository
       (item) => item.questionId.toString() === questionId,
     );
 
-    return questionAttachments;
+    return Promise.resolve(questionAttachments);
   }
 
   async deleteManyByQuestionId(questionId: string) {
@@ -20,5 +20,6 @@ export class InMemoryQuestionAttachmentsRepository
     );
 
     this.items = questionAttachments;
+    return Promise.resolve();
   }
 }

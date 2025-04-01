@@ -13,10 +13,10 @@ export class InMemoryQuestionCommentsRepository
     );
 
     if (!questionComment) {
-      return null;
+      return Promise.resolve(null);
     }
 
-    return questionComment;
+    return Promise.resolve(questionComment);
   }
 
   async findManyByQuestionId(questionId: string, { page }: PaginationParams) {
@@ -24,11 +24,12 @@ export class InMemoryQuestionCommentsRepository
       .filter((item) => item.questionId.toString() === questionId)
       .slice((page - 1) * 20, page * 20);
 
-    return questionComments;
+    return Promise.resolve(questionComments);
   }
 
   async create(questionComment: QuestionComment) {
     this.items.push(questionComment);
+    return Promise.resolve();
   }
 
   async delete(questionComment: QuestionComment) {
@@ -37,5 +38,6 @@ export class InMemoryQuestionCommentsRepository
     );
 
     this.items.splice(itemIndex, 1);
+    return Promise.resolve();
   }
 }
